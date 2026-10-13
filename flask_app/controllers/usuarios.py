@@ -1,13 +1,13 @@
 from flask_app import app
 from flask import render_template, request, redirect, flash, session
 from flask_app.models.usuario import Usuario
-from flask_bcrypt import Bcrypt #Importamos Bcrypt
+from flask_bcrypt import Bcrypt #Importamos Bcrypt, para no mostrar la password del usuario
 
 bcrypt = Bcrypt(app) #Generamos un objeto llamado bcrypt
 
 @app.route('/')
 def inicio(): 
-    return render_template('registro.html')
+    return render_template('registro.html') 
 
 #registro / crear usuario
 @app.route('/crear_usuario', methods= ["POST"])
@@ -22,7 +22,7 @@ def crear_usuario():
     #--- YO DEBERÍA VALIDAR QUE LOS DATOS INGRESADOS
     #--- SEAN VALIDOS
 
-    if not Usuario.validar_registro(request.form):
+    if not Usuario.validar_registro(request.form): #aqui se guardan todos los datos del formulario
         print("Usuario Invalido")
         return redirect('/')
 
@@ -71,5 +71,5 @@ def iniciar_sesion():
 @app.route('/cerrar_sesion')
 def cerrar_sesion():
 
-    session.clear()
+    session.clear() #limpia todo despues de cerrar la pagina o la sesion
     return redirect('/')
